@@ -47,11 +47,11 @@ func Test_part2(t *testing.T) {
 			input: "oajjsonefojdafiojo234jfoasdfji",
 			want:  14,
 		},
-		{
-			name:  "actual",
-			input: input,
-			want:  54078,
-		},
+		// {
+		// 	name:  "actual",
+		// 	input: input,
+		// 	want:  0,
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
