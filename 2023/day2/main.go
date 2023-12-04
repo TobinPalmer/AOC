@@ -80,6 +80,37 @@ outer:
 }
 
 func part2(input string) int {
-	fmt.Println(input)
-	return 0
+	maxes := map[string]int{
+		"red":   0,
+		"green": 0,
+		"blue":  0,
+	}
+
+	total := 0
+
+	for i := 0; i < len(strings.Split(input, "\n")); i++ {
+		localTotal := 1
+
+		split := strings.Split(input, "\n")[i]
+		line := split[strings.Index(split, ":")+1:]
+		line = strings.NewReplacer(",", "", ";", "").Replace(line)
+		splitLine := strings.Split(strings.ReplaceAll(strings.Trim(line, " "), ";", ""), " ")
+
+		for i := 1; i < len(splitLine); i += 2 {
+			v, _ := strconv.Atoi(splitLine[i-1])
+			maxes[splitLine[i]] = max(v, maxes[splitLine[i]])
+		}
+
+		for _, v := range maxes {
+			localTotal *= v
+		}
+		total += localTotal
+
+		maxes["red"] = 0
+		maxes["green"] = 0
+		maxes["blue"] = 0
+		localTotal = 1
+	}
+
+	return total
 }
