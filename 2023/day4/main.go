@@ -94,6 +94,7 @@ func part1(input string) int {
 
 func part2(input string) int {
 	split := strings.Split(input, "\n")
+	totalScratchCards := 0
 	scratchCardMap := make(map[uint16]uint) // Num:amount of scratchcards that we have
 
 	for i := 0; i < len(split); i++ {
@@ -133,15 +134,9 @@ func part2(input string) int {
 
 		for j := i + 2; j < localScratchCardsWon+i+2; j++ {
 			scratchCardMap[uint16(j)] += 1 * scratchCardMap[uint16(i+1)]
+			totalScratchCards += int(1 * scratchCardMap[uint16(i+1)])
 		}
 	}
 
-	t := 0
-
-	for _, v := range scratchCardMap {
-		t += int(v)
-	}
-	return t
-
-	//return totalScratchCards
+	return totalScratchCards
 }
