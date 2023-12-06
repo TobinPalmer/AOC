@@ -72,8 +72,6 @@ func part1(input string) int {
 			}
 		}
 
-		fmt.Println(winningNumsMap)
-
 		for k := range inputNumsMap {
 			_, ok := winningNumsMap[k]
 			if !ok {
@@ -95,6 +93,55 @@ func part1(input string) int {
 }
 
 func part2(input string) int {
-	fmt.Println(input)
-	return 0
+	split := strings.Split(input, "\n")
+	scratchCardMap := make(map[uint16]uint) // Num:amount of scratchcards that we have
+
+	for i := 0; i < len(split); i++ {
+		scratchCardMap[uint16(i+1)]++
+		winningNums := make(map[uint8]struct{})
+		numbers := make(map[uint8]struct{})
+
+		line := split[i][strings.Index(split[i], ":")+2:]
+		tempWinning := strings.Split(line[:strings.Index(line, "|")], " ")
+		tempNumbers := strings.Split(line[strings.Index(line, "|")+1:], " ")
+		for _, num := range tempWinning {
+			val, err := strconv.Atoi(num)
+			if err != nil {
+				continue
+			}
+
+			winningNums[uint8(val)] = struct{}{}
+		}
+
+		for _, num := range tempNumbers {
+			val, err := strconv.Atoi(num)
+			if err != nil {
+				continue
+			}
+
+			numbers[uint8(val)] = struct{}{}
+		}
+
+		// Get the winning number count for this car
+		localScratchCardsWon := 0
+
+		for key := range winningNums {
+			if _, ok := numbers[key]; ok {
+				localScratchCardsWon++
+			}
+		}
+
+		for j := i + 2; j < localScratchCardsWon+i+2; j++ {
+			scratchCardMap[uint16(j)] += 1 * scratchCardMap[uint16(i+1)]
+		}
+	}
+
+	t := 0
+
+	for _, v := range scratchCardMap {
+		t += int(v)
+	}
+	return t
+
+	//return totalScratchCards
 }
