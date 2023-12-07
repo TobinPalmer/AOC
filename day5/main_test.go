@@ -45,11 +45,11 @@ humidity-to-location map:
 56 93 4`,
 			want: 35,
 		},
-		//{
-		//	name:  "actual",
-		//	input: input,
-		//	want:  0,
-		//},
+		{
+			name:  "actual",
+			input: input,
+			want:  389056265,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

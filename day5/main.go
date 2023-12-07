@@ -52,12 +52,7 @@ func part1(input string) int {
 
 	for i := 1; i < len(split); i++ {
 		inputs := spanningStringToIntArr(strings.Split(strings.TrimSpace(split[i][strings.Index(split[i], ":")+1:]), "\n"))
-		for j := 0; j < len(seeds); j++ {
-			val, ok := generateMutation(inputs)[seeds[j]]
-			if ok {
-				seeds[j] = val
-			}
-		}
+		seeds = generateMutation(inputs, seeds)
 	}
 
 	return slices.Min(seeds)
@@ -101,17 +96,23 @@ func spanningStringToIntArr(input []string) [][]int {
 	return output
 }
 
-// Return a map starting at the first location of the first mutation
-func generateMutation(key [][]int) map[int]int {
-	mutations := make(map[int]int) // Map original seed num to soil num
+// Returns the new seed values
+func generateMutation(key [][]int, seed []int) []int {
+	var output []int
 
-	for i := 0; i < len(key); i++ {
-		// The 3rd value in the array corresponds to the range length
-		for j := 0; j < key[i][2]; j++ {
-			mutations[(key[i][1] + j)] = key[i][0] + j
+outer:
+	for i := 0; i < len(seed); i++ {
+		for j := 0; j < len(key); j++ {
+			if key[j][1] <= seed[i] && seed[i] <= key[j][1]+key[j][2] {
+				output = append(output, seed[i]+(key[j][0]-key[j][1]))
+				continue outer
+			}
 		}
+
+		output = append(output, seed[i])
 	}
-	return mutations
+
+	return output
 }
 
 func part2(input string) int {
