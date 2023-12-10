@@ -116,10 +116,20 @@ outer:
 }
 
 func part2(input string) int {
-	split := strings.Split(input, "\n")
+	split := strings.Split(input, "\n\n")
+	seedsArr := stringArrToIntArr(strings.Split(split[0][7:], " "))
+	var seeds []int
 
-	for i := 0; i < len(split); i++ {
+	for i := 0; i < len(seedsArr)-1; i += 2 {
+		for j := 0; j < seedsArr[i+1]; j++ {
+			seeds = append(seeds, seedsArr[i]+j)
+		}
 	}
 
-	return 0
+	for i := 1; i < len(split); i++ {
+		inputs := spanningStringToIntArr(strings.Split(strings.TrimSpace(split[i][strings.Index(split[i], ":")+1:]), "\n"))
+		seeds = generateMutation(inputs, seeds)
+	}
+
+	return slices.Min(seeds)
 }

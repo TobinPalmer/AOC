@@ -14,12 +14,13 @@ func create(p string) (*os.File, error) {
 }
 
 func main() {
+	const year = 2023
 	args := os.Args[1:]
 	if len(args) < 1 {
 		fmt.Println("Please provide the day number, ex 5")
 		return
 	}
-	file, err := create("day" + args[0] + "/main.go")
+	file, err := create("2023/day" + args[0] + "/main.go")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -101,7 +102,7 @@ func part2(input string) int {
 		return
 	}
 
-	file, err = create("day" + args[0] + "/input.txt")
+	file, err = create("2023/day" + args[0] + "/input.txt")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -167,7 +168,7 @@ func Test_part2(t *testing.T) {
 	}
 }
 `)
-	file, err = create("day" + args[0] + "/main_test.go")
+	file, err = create("2023/day" + args[0] + "/main_test.go")
 	if err != nil {
 		fmt.Println(err)
 		return
