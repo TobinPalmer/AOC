@@ -115,8 +115,29 @@ func stringArrToIntArr(input []string) []int {
 func part2(input string) int {
 	split := strings.Split(input, "\n")
 
-	for i := 0; i < len(split); i++ {
+	distances, _ := strconv.ParseInt(strings.ReplaceAll(split[1][strings.Index(split[1], ":")+1:], " ", ""), 10, 64)
+	time, _ := strconv.ParseInt(strings.ReplaceAll(split[0][strings.Index(split[0], ":")+1:], " ", ""), 10, 64)
+
+	var fi int64 = 0
+	var l int64 = 0
+
+	for i := int64(0); i < time; i++ {
+		if f(time, i, distances) == true {
+			fi = i
+			break
+		}
 	}
 
-	return 0
+	for i := time; i > 0; i-- {
+		if f(time, i, distances) == true {
+			l = i
+			break
+		}
+	}
+
+	return int(l - fi + 1)
+}
+
+func f(time int64, tick int64, d int64) bool {
+	return (tick * (time - tick)) > d
 }

@@ -36,15 +36,16 @@ func Test_part2(t *testing.T) {
 		want  int
 	}{
 		{
-			name:  "example",
-			input: "",
-			want:  0,
+			name: `example`,
+			input: `time:      7  15   30
+distance:  9  40  200`,
+			want: 71503,
 		},
-		//{
-		//	name:  "actual",
-		//	input: input,
-		//	want:  0,
-		//},
+		{
+			name:  "actual",
+			input: input,
+			want:  41382569,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
